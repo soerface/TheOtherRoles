@@ -34,7 +34,7 @@ Design by <color=#FCCE03FF>Bavari</color>";
 
                 var version = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(credentials);
                 version.transform.position = new Vector3(0, -0.25f, 0);
-                version.SetText($"v{TheOtherRolesPlugin.Version.ToString()}");
+                version.SetText($"v{TheOtherRolesPlugin.Version.ToString()} +<color=#FF0000>EvilShip</color> +<color=#FF0000>Undertaker</color> +<color=#EC62A5>JesterAbilities</color>");
 
                 credentials.transform.SetParent(amongUsLogo.transform);
                 version.transform.SetParent(amongUsLogo.transform);
