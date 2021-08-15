@@ -243,8 +243,8 @@ namespace TheOtherRoles {
             cleanerSpawnRate = CustomOption.Create(260, cs(Cleaner.color, "Cleaner"), rates, null, true);
             cleanerCooldown = CustomOption.Create(261, "Cleaner Cooldown", 30f, 10f, 60f, 2.5f, cleanerSpawnRate);
 
-            undertakerSpawnRate = CustomOption.Create(330, cs(Undertaker.color, "Undertaker"), rates, null, true);
-            undertakerDragingDelaiAfterKill = CustomOption.Create(331, "Draging delai after kill", 0f, 0f, 15, 1f, undertakerSpawnRate);                     
+            undertakerSpawnRate = CustomOption.Create(501, cs(Undertaker.color, "Undertaker"), rates, null, true);
+            undertakerDragingDelaiAfterKill = CustomOption.Create(502, "Draging delai after kill", 0f, 0f, 15, 1f, undertakerSpawnRate);                     
 
             warlockSpawnRate = CustomOption.Create(270, cs(Cleaner.color, "Warlock"), rates, null, true);
             warlockCooldown = CustomOption.Create(271, "Warlock Cooldown", 30f, 10f, 60f, 2.5f, warlockSpawnRate);
