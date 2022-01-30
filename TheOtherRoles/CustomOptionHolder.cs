@@ -15,6 +15,7 @@ namespace TheOtherRoles {
         public static string[] presets = new string[]{"Preset 1", "Preset 2", "Preset 3", "Preset 4", "Preset 5"};
 
         public static CustomOption presetSelection;
+        public static CustomOption activateRoles;
         public static CustomOption crewmateRolesCountMin;
         public static CustomOption crewmateRolesCountMax;
         public static CustomOption neutralRolesCountMin;
@@ -55,14 +56,21 @@ namespace TheOtherRoles {
         public static CustomOption loversImpLoverRate;
         public static CustomOption loversBothDie;
         public static CustomOption loversCanHaveAnotherRole;
+        public static CustomOption loversEnableChat;
 
         public static CustomOption guesserSpawnRate;
         public static CustomOption guesserIsImpGuesserRate;
         public static CustomOption guesserNumberOfShots;
+        public static CustomOption guesserHasMultipleShotsPerMeeting;
+        public static CustomOption guesserShowInfoInGhostChat;
+        public static CustomOption guesserKillsThroughShield;
+        public static CustomOption guesserEvilCanKillSpy;
+        public static CustomOption guesserSpawnBothRate;
+        public static CustomOption guesserCantGuessSnitchIfTaksDone;
 
         public static CustomOption jesterSpawnRate;
         public static CustomOption jesterCanCallEmergency;
-        public static CustomOption jesterCanSabotage;
+        public static CustomOption jesterHasImpostorVision;
 
         public static CustomOption arsonistSpawnRate;
         public static CustomOption arsonistCooldown;
@@ -87,16 +95,35 @@ namespace TheOtherRoles {
         public static CustomOption bountyHunterShowArrow;
         public static CustomOption bountyHunterArrowUpdateIntervall;
 
+        public static CustomOption witchSpawnRate;
+        public static CustomOption witchCooldown;
+        public static CustomOption witchAdditionalCooldown;
+        public static CustomOption witchCanSpellAnyone;
+        public static CustomOption witchSpellCastingDuration;
+        public static CustomOption witchTriggerBothCooldowns;
+        public static CustomOption witchVoteSavesTargets;
+
         public static CustomOption shifterSpawnRate;
         public static CustomOption shifterShiftsModifiers;
 
         public static CustomOption mayorSpawnRate;
 
         public static CustomOption engineerSpawnRate;
+        public static CustomOption engineerNumberOfFixes;
+        public static CustomOption engineerHighlightForImpostors;
+        public static CustomOption engineerHighlightForTeamJackal;
 
         public static CustomOption sheriffSpawnRate;
         public static CustomOption sheriffCooldown;
         public static CustomOption sheriffCanKillNeutrals;
+        public static CustomOption deputySpawnRate;
+
+        public static CustomOption deputyNumberOfHandcuffs;
+        public static CustomOption deputyHandcuffCooldown;
+        public static CustomOption deputyGetsPromoted;
+        public static CustomOption deputyKeepsHandcuffs;
+        public static CustomOption deputyHandcuffDuration;
+        public static CustomOption deputyKnowsSheriff;
 
         public static CustomOption lighterSpawnRate;
         public static CustomOption lighterModeLightsOnVision;
@@ -120,6 +147,7 @@ namespace TheOtherRoles {
         public static CustomOption medicShowShielded;
         public static CustomOption medicShowAttemptToShielded;
         public static CustomOption medicSetShieldAfterMeeting;
+        public static CustomOption medicShowAttemptToMedic;
 
         public static CustomOption swapperSpawnRate;
         public static CustomOption swapperCanCallEmergency;
@@ -134,10 +162,16 @@ namespace TheOtherRoles {
         public static CustomOption hackerCooldown;
         public static CustomOption hackerHackeringDuration;
         public static CustomOption hackerOnlyColorType;
+        public static CustomOption hackerToolsNumber;
+        public static CustomOption hackerRechargeTasksNumber;
+        public static CustomOption hackerNoMove;
 
         public static CustomOption trackerSpawnRate;
         public static CustomOption trackerUpdateIntervall;
         public static CustomOption trackerResetTargetAfterMeeting;
+        public static CustomOption trackerCanTrackCorpses;
+        public static CustomOption trackerCorpsesTrackingCooldown;
+        public static CustomOption trackerCorpsesTrackingDuration;
 
         public static CustomOption snitchSpawnRate;
         public static CustomOption snitchLeftTasksForReveal;
@@ -167,15 +201,49 @@ namespace TheOtherRoles {
         public static CustomOption securityGuardTotalScrews;
         public static CustomOption securityGuardCamPrice;
         public static CustomOption securityGuardVentPrice;
+        public static CustomOption securityGuardCamDuration;
+        public static CustomOption securityGuardCamMaxCharges;
+        public static CustomOption securityGuardCamRechargeTasksNumber;
+        public static CustomOption securityGuardNoMove;
 
         public static CustomOption baitSpawnRate;
         public static CustomOption baitHighlightAllVents;
         public static CustomOption baitReportDelay;
+        public static CustomOption baitShowKillFlash;
+
+        public static CustomOption vultureSpawnRate;
+        public static CustomOption vultureCooldown;
+        public static CustomOption vultureNumberToWin;
+        public static CustomOption vultureCanUseVents;
+        public static CustomOption vultureShowArrows;
+
+        public static CustomOption mediumSpawnRate;
+        public static CustomOption mediumCooldown;
+        public static CustomOption mediumDuration;
+        public static CustomOption mediumOneTimeUse;
+
+        public static CustomOption lawyerSpawnRate;
+        public static CustomOption lawyerTargetKnows;
+        public static CustomOption lawyerWinsAfterMeetings;
+        public static CustomOption lawyerNeededMeetings;
+        public static CustomOption lawyerVision;
+        public static CustomOption lawyerKnowsRole;
+        public static CustomOption pursuerCooldown;
+        public static CustomOption pursuerBlanksNumber;
 
         public static CustomOption maxNumberOfMeetings;
         public static CustomOption blockSkippingInEmergencyMeetings;
         public static CustomOption noVoteIsSelfVote;
         public static CustomOption hidePlayerNames;
+        public static CustomOption allowParallelMedBayScans;
+
+        public static CustomOption dynamicMap;
+        public static CustomOption dynamicMapEnableSkeld;
+        public static CustomOption dynamicMapEnableMira;
+        public static CustomOption dynamicMapEnablePolus;
+        public static CustomOption dynamicMapEnableDleks;
+        public static CustomOption dynamicMapEnableAirShip;
+
 
         internal static Dictionary<byte, byte[]> blockedRolePairings = new Dictionary<byte, byte[]>();
 
@@ -192,6 +260,7 @@ namespace TheOtherRoles {
             
             // Role Options
             presetSelection = CustomOption.Create(0, cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "Preset"), presets, null, true);
+            activateRoles = CustomOption.Create(1, cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "Enable Mod Roles And Block Vanilla Roles"), true, null, true);
 
             // Using new id's for the options to not break compatibilty with older versions
             crewmateRolesCountMin = CustomOption.Create(300, cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "Minimum Crewmate Roles"), 0f, 0f, 15f, 1f, null, true);
@@ -229,7 +298,7 @@ namespace TheOtherRoles {
             eraserCanEraseAnyone = CustomOption.Create(232, "Eraser Can Erase Anyone", false, eraserSpawnRate);
 
             tricksterSpawnRate = CustomOption.Create(250, cs(Trickster.color, "Trickster"), rates, null, true);
-            tricksterPlaceBoxCooldown = CustomOption.Create(251, "Trickster Box Cooldown", 10f, 0f, 30f, 2.5f, tricksterSpawnRate);
+            tricksterPlaceBoxCooldown = CustomOption.Create(251, "Trickster Box Cooldown", 10f, 2.5f, 30f, 2.5f, tricksterSpawnRate);
             tricksterLightsOutCooldown = CustomOption.Create(252, "Trickster Lights Out Cooldown", 30f, 10f, 60f, 5f, tricksterSpawnRate);
             tricksterLightsOutDuration = CustomOption.Create(253, "Trickster Lights Out Duration", 15f, 5f, 60f, 2.5f, tricksterSpawnRate);
 
@@ -247,6 +316,13 @@ namespace TheOtherRoles {
             bountyHunterShowArrow = CustomOption.Create(324, "Show Arrow Pointing Towards The Bounty", true, bountyHunterSpawnRate);
             bountyHunterArrowUpdateIntervall = CustomOption.Create(325, "Arrow Update Intervall", 15f, 2.5f, 60f, 2.5f, bountyHunterShowArrow);
 
+            witchSpawnRate = CustomOption.Create(370, cs(Witch.color, "Witch"), rates, null, true);
+            witchCooldown = CustomOption.Create(371, "Witch Spell Casting Cooldown", 30f, 10f, 120f, 5f, witchSpawnRate);
+            witchAdditionalCooldown = CustomOption.Create(372, "Witch Additional Cooldown", 10f, 0f, 60f, 5f, witchSpawnRate);
+            witchCanSpellAnyone = CustomOption.Create(373, "Witch Can Spell Anyone", false, witchSpawnRate);
+            witchSpellCastingDuration = CustomOption.Create(374, "Spell Casting Duration", 1f, 0f, 10f, 1f, witchSpawnRate);
+            witchTriggerBothCooldowns = CustomOption.Create(375, "Trigger Both Cooldowns", true, witchSpawnRate);
+            witchVoteSavesTargets = CustomOption.Create(376, "Voting The Witch Saves All The Targets", true, witchSpawnRate);
 
             miniSpawnRate = CustomOption.Create(180, cs(Mini.color, "Mini"), rates, null, true);
             miniGrowingUpDuration = CustomOption.Create(181, "Mini Growing Up Duration", 400f, 100f, 1500f, 100f, miniSpawnRate);
@@ -255,14 +331,21 @@ namespace TheOtherRoles {
             loversImpLoverRate = CustomOption.Create(51, "Chance That One Lover Is Impostor", rates, loversSpawnRate);
             loversBothDie = CustomOption.Create(52, "Both Lovers Die", true, loversSpawnRate);
             loversCanHaveAnotherRole = CustomOption.Create(53, "Lovers Can Have Another Role", true, loversSpawnRate);
+            loversEnableChat = CustomOption.Create(54, "Enable Lover Chat", true, loversSpawnRate);
 
             guesserSpawnRate = CustomOption.Create(310, cs(Guesser.color, "Guesser"), rates, null, true);
             guesserIsImpGuesserRate = CustomOption.Create(311, "Chance That The Guesser Is An Impostor", rates, guesserSpawnRate);
             guesserNumberOfShots = CustomOption.Create(312, "Guesser Number Of Shots", 2f, 1f, 15f, 1f, guesserSpawnRate);
+            guesserHasMultipleShotsPerMeeting = CustomOption.Create(313, "Guesser Can Shoot Multiple Times Per Meeting", false, guesserSpawnRate);
+            guesserShowInfoInGhostChat = CustomOption.Create(314, "Guesses Visible In Ghost Chat", true, guesserSpawnRate);
+            guesserKillsThroughShield  = CustomOption.Create(315, "Guesses Ignore The Medic Shield", true, guesserSpawnRate);
+            guesserEvilCanKillSpy  = CustomOption.Create(316, "Evil Guesser Can Guess The Spy", true, guesserSpawnRate);
+            guesserSpawnBothRate = CustomOption.Create(317, "Both Guesser Spawn Rate", rates, guesserSpawnRate);
+            guesserCantGuessSnitchIfTaksDone = CustomOption.Create(318, "Guesser Can't Guess Snitch When Tasks Completed", true, guesserSpawnRate);
 
             jesterSpawnRate = CustomOption.Create(60, cs(Jester.color, "Jester"), rates, null, true);
-            jesterCanCallEmergency = CustomOption.Create(61, "Jester can call emergency meeting", true, jesterSpawnRate);
-            jesterCanSabotage = CustomOption.Create(62, "Jester can sabotage", true, jesterSpawnRate);
+            jesterCanCallEmergency = CustomOption.Create(61, "Jester Can Call Emergency Meeting", true, jesterSpawnRate);
+            jesterHasImpostorVision = CustomOption.Create(62, "Jester Has Impostor Vision", false, jesterSpawnRate);
 
             arsonistSpawnRate = CustomOption.Create(290, cs(Arsonist.color, "Arsonist"), rates, null, true);
             arsonistCooldown = CustomOption.Create(291, "Arsonist Cooldown", 12.5f, 2.5f, 60f, 2.5f, arsonistSpawnRate);
@@ -280,17 +363,41 @@ namespace TheOtherRoles {
             jackalCanCreateSidekickFromImpostor = CustomOption.Create(229, "Jackals Can Make An Impostor To His Sidekick", true, jackalSpawnRate);
             jackalAndSidekickHaveImpostorVision = CustomOption.Create(430, "Jackal And Sidekick Have Impostor Vision", false, jackalSpawnRate);
 
+            vultureSpawnRate = CustomOption.Create(340, cs(Vulture.color, "Vulture"), rates, null, true);
+            vultureCooldown = CustomOption.Create(341, "Vulture Cooldown", 15f, 10f, 60f, 2.5f, vultureSpawnRate);
+            vultureNumberToWin = CustomOption.Create(342, "Number Of Corpses Needed To Be Eaten", 4f, 1f, 10f, 1f, vultureSpawnRate);
+            vultureCanUseVents = CustomOption.Create(343, "Vulture Can Use Vents", true, vultureSpawnRate);
+            vultureShowArrows = CustomOption.Create(344, "Show Arrows Pointing Towards The Corpses", true, vultureSpawnRate);
+
+            lawyerSpawnRate = CustomOption.Create(350, cs(Lawyer.color, "Lawyer"), rates, null, true);
+            lawyerTargetKnows = CustomOption.Create(351, "Lawyer Target Knows", true, lawyerSpawnRate);
+            lawyerWinsAfterMeetings = CustomOption.Create(352, "Lawyer Wins After Meetings", false, lawyerSpawnRate);
+            lawyerNeededMeetings = CustomOption.Create(353, "Lawyer Needed Meetings To Win", 5f, 1f, 15f, 1f, lawyerWinsAfterMeetings);
+            lawyerVision = CustomOption.Create(354, "Lawyer Vision", 1f, 0.25f, 3f, 0.25f, lawyerSpawnRate);
+            lawyerKnowsRole = CustomOption.Create(355, "Lawyer Knows Target Role", false, lawyerSpawnRate);
+            pursuerCooldown = CustomOption.Create(356, "Pursuer Blank Cooldown", 30f, 5f, 60f, 2.5f, lawyerSpawnRate);
+            pursuerBlanksNumber = CustomOption.Create(357, "Pursuer Number Of Blanks", 5f, 1f, 20f, 1f, lawyerSpawnRate);
+
             shifterSpawnRate = CustomOption.Create(70, cs(Shifter.color, "Shifter"), rates, null, true);
             shifterShiftsModifiers = CustomOption.Create(71, "Shifter Shifts Modifiers", false, shifterSpawnRate);
 
             mayorSpawnRate = CustomOption.Create(80, cs(Mayor.color, "Mayor"), rates, null, true);
 
             engineerSpawnRate = CustomOption.Create(90, cs(Engineer.color, "Engineer"), rates, null, true);
+            engineerNumberOfFixes = CustomOption.Create(91, "Number Of Sabotage Fixes", 1f, 1f, 3f, 1f, engineerSpawnRate);
+            engineerHighlightForImpostors = CustomOption.Create(92, "Impostors See Vents Highlighted", true, engineerSpawnRate);
+            engineerHighlightForTeamJackal = CustomOption.Create(93, "Jackal and Sidekick See Vents Highlighted ", true, engineerSpawnRate);
 
             sheriffSpawnRate = CustomOption.Create(100, cs(Sheriff.color, "Sheriff"), rates, null, true);
             sheriffCooldown = CustomOption.Create(101, "Sheriff Cooldown", 30f, 10f, 60f, 2.5f, sheriffSpawnRate);
             sheriffCanKillNeutrals = CustomOption.Create(102, "Sheriff Can Kill Neutrals", false, sheriffSpawnRate);
-
+            deputySpawnRate = CustomOption.Create(103, "Sheriff Has A Deputy", rates, sheriffSpawnRate);
+            deputyNumberOfHandcuffs = CustomOption.Create(104, "Deputy Number Of Handcuffs", 3f, 1f, 10f, 1f, deputySpawnRate);
+            deputyHandcuffCooldown = CustomOption.Create(105, "Handcuff Cooldown", 30f, 10f, 60f, 2.5f, deputySpawnRate);
+            deputyHandcuffDuration = CustomOption.Create(106, "Handcuff Duration", 15f, 5f, 60f, 2.5f, deputySpawnRate);
+            deputyKnowsSheriff = CustomOption.Create(107, "Sheriff And Deputy Know Each Other ", true, deputySpawnRate);
+            deputyGetsPromoted = CustomOption.Create(108, "Deputy Gets Promoted To Sheriff", new string[] { "Off", "On (Immediately)", "On (After Meeting)" }, deputySpawnRate);
+            deputyKeepsHandcuffs = CustomOption.Create(109, "Deputy Keeps Handcuffs When Promoted", true, deputyGetsPromoted);
 
             lighterSpawnRate = CustomOption.Create(110, cs(Lighter.color, "Lighter"), rates, null, true);
             lighterModeLightsOnVision = CustomOption.Create(111, "Lighter Mode Vision On Lights On", 2f, 0.25f, 5f, 0.25f, lighterSpawnRate);
@@ -314,6 +421,7 @@ namespace TheOtherRoles {
             medicShowShielded = CustomOption.Create(143, "Show Shielded Player", new string[] {"Everyone", "Shielded + Medic", "Medic"}, medicSpawnRate);
             medicShowAttemptToShielded = CustomOption.Create(144, "Shielded Player Sees Murder Attempt", false, medicSpawnRate);
             medicSetShieldAfterMeeting = CustomOption.Create(145, "Shield Will Be Set After The Next Meeting", false, medicSpawnRate);
+            medicShowAttemptToMedic = CustomOption.Create(146, "Medic Sees Murder Attempt On Shielded Player", false, medicSpawnRate);
 
             swapperSpawnRate = CustomOption.Create(150, cs(Swapper.color, "Swapper"), rates, null, true);
             swapperCanCallEmergency = CustomOption.Create(151, "Swapper can call emergency meeting", false, swapperSpawnRate);
@@ -322,16 +430,23 @@ namespace TheOtherRoles {
             seerSpawnRate = CustomOption.Create(160, cs(Seer.color, "Seer"), rates, null, true);
             seerMode = CustomOption.Create(161, "Seer Mode", new string[]{ "Show Death Flash + Souls", "Show Death Flash", "Show Souls"}, seerSpawnRate);
             seerLimitSoulDuration = CustomOption.Create(163, "Seer Limit Soul Duration", false, seerSpawnRate);
-            seerSoulDuration = CustomOption.Create(162, "Seer Soul Duration", 15f, 0f, 60f, 5f, seerLimitSoulDuration);
+            seerSoulDuration = CustomOption.Create(162, "Seer Soul Duration", 15f, 0f, 120f, 5f, seerLimitSoulDuration);
         
             hackerSpawnRate = CustomOption.Create(170, cs(Hacker.color, "Hacker"), rates, null, true);
-            hackerCooldown = CustomOption.Create(171, "Hacker Cooldown", 30f, 0f, 60f, 5f, hackerSpawnRate);
+            hackerCooldown = CustomOption.Create(171, "Hacker Cooldown", 30f, 5f, 60f, 5f, hackerSpawnRate);
             hackerHackeringDuration = CustomOption.Create(172, "Hacker Duration", 10f, 2.5f, 60f, 2.5f, hackerSpawnRate);
             hackerOnlyColorType = CustomOption.Create(173, "Hacker Only Sees Color Type", false, hackerSpawnRate);
+            hackerToolsNumber = CustomOption.Create(174, "Max Mobile Gadget Charges", 5f, 1f, 30f, 1f, hackerSpawnRate);
+            hackerRechargeTasksNumber = CustomOption.Create(175, "Number Of Tasks Needed For Recharging", 2f, 1f, 5f, 1f, hackerSpawnRate);
+            hackerNoMove = CustomOption.Create(176, "Cant Move During Mobile Gadget Duration", true, hackerSpawnRate);
 
             trackerSpawnRate = CustomOption.Create(200, cs(Tracker.color, "Tracker"), rates, null, true);
-            trackerUpdateIntervall = CustomOption.Create(201, "Tracker Update Intervall", 5f, 2.5f, 30f, 2.5f, trackerSpawnRate);
+            trackerUpdateIntervall = CustomOption.Create(201, "Tracker Update Intervall", 5f, 1f, 30f, 1f, trackerSpawnRate);
             trackerResetTargetAfterMeeting = CustomOption.Create(202, "Tracker Reset Target After Meeting", false, trackerSpawnRate);
+            trackerCanTrackCorpses = CustomOption.Create(203, "Tracker Can Track Corpses", true, trackerSpawnRate);
+            trackerCorpsesTrackingCooldown = CustomOption.Create(204, "Corpses Tracking Cooldown", 30f, 5f, 120f, 5f, trackerCanTrackCorpses);
+            trackerCorpsesTrackingDuration = CustomOption.Create(205, "Corpses Tracking Duration", 5f, 2.5f, 30f, 2.5f, trackerCanTrackCorpses);
+                           
             snitchSpawnRate = CustomOption.Create(210, cs(Snitch.color, "Snitch"), rates, null, true);
             snitchLeftTasksForReveal = CustomOption.Create(211, "Task Count Where The Snitch Will Be Revealed", 1f, 0f, 5f, 1f, snitchSpawnRate);
             snitchIncludeTeamJackal = CustomOption.Create(212, "Include Team Jackal", false, snitchSpawnRate);
@@ -348,387 +463,40 @@ namespace TheOtherRoles {
             securityGuardTotalScrews = CustomOption.Create(282, "Security Guard Number Of Screws", 7f, 1f, 15f, 1f, securityGuardSpawnRate);
             securityGuardCamPrice = CustomOption.Create(283, "Number Of Screws Per Cam", 2f, 1f, 15f, 1f, securityGuardSpawnRate);
             securityGuardVentPrice = CustomOption.Create(284, "Number Of Screws Per Vent", 1f, 1f, 15f, 1f, securityGuardSpawnRate);
+            securityGuardCamDuration = CustomOption.Create(285, "Security Guard Duration", 10f, 2.5f, 60f, 2.5f, securityGuardSpawnRate);
+            securityGuardCamMaxCharges = CustomOption.Create(286, "Gadged Max Charges", 5f, 1f, 30f, 1f, securityGuardSpawnRate);
+            securityGuardCamRechargeTasksNumber = CustomOption.Create(287, "Number Of Tasks Needed For Recharging", 3f, 1f, 10f, 1f, securityGuardSpawnRate);
+            securityGuardNoMove = CustomOption.Create(288, "Cant Move During Cam Duration", true, securityGuardSpawnRate);
 
             baitSpawnRate = CustomOption.Create(330, cs(Bait.color, "Bait"), rates, null, true);
             baitHighlightAllVents = CustomOption.Create(331, "Highlight All Vents If A Vent Is Occupied", false, baitSpawnRate);
             baitReportDelay = CustomOption.Create(332, "Bait Report Delay", 0f, 0f, 10f, 1f, baitSpawnRate);
+            baitShowKillFlash = CustomOption.Create(333, "Warn The Killer With A Flash", true, baitSpawnRate);
+
+            mediumSpawnRate = CustomOption.Create(360, cs(Medium.color, "Medium"), rates, null, true);
+            mediumCooldown = CustomOption.Create(361, "Medium Questioning Cooldown", 30f, 5f, 120f, 5f, mediumSpawnRate);
+            mediumDuration = CustomOption.Create(362, "Medium Questioning Duration", 3f, 0f, 15f, 1f, mediumSpawnRate);
+            mediumOneTimeUse = CustomOption.Create(363, "Each Soul Can Only Be Questioned Once", false, mediumSpawnRate);
 
             // Other options
             maxNumberOfMeetings = CustomOption.Create(3, "Number Of Meetings (excluding Mayor meeting)", 10, 0, 15, 1, null, true);
             blockSkippingInEmergencyMeetings = CustomOption.Create(4, "Block Skipping In Emergency Meetings", false);
             noVoteIsSelfVote = CustomOption.Create(5, "No Vote Is Self Vote", false, blockSkippingInEmergencyMeetings);
             hidePlayerNames = CustomOption.Create(6, "Hide Player Names", false);
+            allowParallelMedBayScans = CustomOption.Create(7, "Allow Parallel MedBay Scans", false);
+
+            dynamicMap = CustomOption.Create(8, "Play On A Random Map", false, null, false);
+            dynamicMapEnableSkeld = CustomOption.Create(501, "Enable Skeld Rotation", true, dynamicMap, false);
+            dynamicMapEnableMira = CustomOption.Create(502, "Enable Mira Rotation", true, dynamicMap, false);
+            dynamicMapEnablePolus = CustomOption.Create(503, "Enable Polus Rotation", true, dynamicMap, false);
+            dynamicMapEnableAirShip = CustomOption.Create(504, "Enable Airship Rotation", true, dynamicMap, false);
+            dynamicMapEnableDleks = CustomOption.Create(505, "Enable dlekS Rotation", false, dynamicMap, false);
 
             blockedRolePairings.Add((byte)RoleId.Vampire, new [] { (byte)RoleId.Warlock});
             blockedRolePairings.Add((byte)RoleId.Warlock, new [] { (byte)RoleId.Vampire});
             blockedRolePairings.Add((byte)RoleId.Spy, new [] { (byte)RoleId.Mini});
             blockedRolePairings.Add((byte)RoleId.Mini, new [] { (byte)RoleId.Spy});
             
-        }
-    }
-
-    public class CustomOption {
-        public static List<CustomOption> options = new List<CustomOption>();
-        public static int preset = 0;
-
-        public int id;
-        public string name;
-        public System.Object[] selections;
-
-        public int defaultSelection;
-        public ConfigEntry<int> entry;
-        public int selection;
-        public OptionBehaviour optionBehaviour;
-        public CustomOption parent;
-        public bool isHeader;
-
-        // Option creation
-
-        public CustomOption(int id, string name,  System.Object[] selections, System.Object defaultValue, CustomOption parent, bool isHeader) {
-            this.id = id;
-            this.name = parent == null ? name : "- " + name;
-            this.selections = selections;
-            int index = Array.IndexOf(selections, defaultValue);
-            this.defaultSelection = index >= 0 ? index : 0;
-            this.parent = parent;
-            this.isHeader = isHeader;
-            selection = 0;
-            if (id != 0) {
-                entry = TheOtherRolesPlugin.Instance.Config.Bind($"Preset{preset}", id.ToString(), defaultSelection);
-                selection = Mathf.Clamp(entry.Value, 0, selections.Length - 1);
-            }
-            options.Add(this);
-        }
-
-        public static CustomOption Create(int id, string name, string[] selections, CustomOption parent = null, bool isHeader = false) {
-            return new CustomOption(id, name, selections, "", parent, isHeader);
-        }
-
-        public static CustomOption Create(int id, string name, float defaultValue, float min, float max, float step, CustomOption parent = null, bool isHeader = false) {
-            List<float> selections = new List<float>();
-            for (float s = min; s <= max; s += step)
-                selections.Add(s);
-            return new CustomOption(id, name, selections.Cast<object>().ToArray(), defaultValue, parent, isHeader);
-        }
-
-        public static CustomOption Create(int id, string name, bool defaultValue, CustomOption parent = null, bool isHeader = false) {
-            return new CustomOption(id, name, new string[]{"Off", "On"}, defaultValue ? "On" : "Off", parent, isHeader);
-        }
-
-        // Static behaviour
-
-        public static void switchPreset(int newPreset) {
-            CustomOption.preset = newPreset;
-            foreach (CustomOption option in CustomOption.options) {
-                if (option.id == 0) continue;
-
-                option.entry = TheOtherRolesPlugin.Instance.Config.Bind($"Preset{preset}", option.id.ToString(), option.defaultSelection);
-                option.selection = Mathf.Clamp(option.entry.Value, 0, option.selections.Length - 1);
-                if (option.optionBehaviour != null && option.optionBehaviour is StringOption stringOption) {
-                    stringOption.oldValue = stringOption.Value = option.selection;
-                    stringOption.ValueText.text = option.selections[option.selection].ToString();
-                }
-            }
-        }
-
-        public static void ShareOptionSelections() {
-            if (PlayerControl.AllPlayerControls.Count <= 1 || AmongUsClient.Instance?.AmHost == false && PlayerControl.LocalPlayer == null) return;
-            foreach (CustomOption option in CustomOption.options) {
-                MessageWriter messageWriter = AmongUsClient.Instance.StartRpc(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ShareOptionSelection, Hazel.SendOption.Reliable);
-                messageWriter.WritePacked((uint)option.id);
-                messageWriter.WritePacked((uint)Convert.ToUInt32(option.selection));
-                messageWriter.EndMessage();
-            }
-        }
-
-        // Getter
-
-        public int getSelection() {
-            return selection;
-        }
-
-        public bool getBool() {
-            return selection > 0;
-        }
-
-        public float getFloat() {
-            return (float)selections[selection];
-        }
-
-        public int getInt() {
-            return (int)(float)selections[selection];
-        }
-
-        // Option changes
-
-        public void updateSelection(int newSelection) {
-            selection = Mathf.Clamp((newSelection + selections.Length) % selections.Length, 0, selections.Length - 1);
-            if (optionBehaviour != null && optionBehaviour is StringOption stringOption) {
-                stringOption.oldValue = stringOption.Value = selection;
-                stringOption.ValueText.text = selections[selection].ToString();
-
-                if (AmongUsClient.Instance?.AmHost == true && PlayerControl.LocalPlayer) {
-                    if (id == 0) switchPreset(selection); // Switch presets
-                    else if (entry != null) entry.Value = selection; // Save selection to config
-
-                    ShareOptionSelections();// Share all selections
-                }
-           }
-        }
-    }
-
-    [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Start))]
-    class GameOptionsMenuStartPatch {
-        public static void Postfix(GameOptionsMenu __instance) {
-            var template = UnityEngine.Object.FindObjectsOfType<StringOption>().FirstOrDefault();
-            if (template == null) return;
-
-            List<OptionBehaviour> allOptions = __instance.Children.ToList();
-            for (int i = 0; i < CustomOption.options.Count; i++) {
-                CustomOption option = CustomOption.options[i];
-                if (option.optionBehaviour == null) {
-                    StringOption stringOption = UnityEngine.Object.Instantiate(template, template.transform.parent);
-                    allOptions.Add(stringOption);
-
-                    stringOption.OnValueChanged = new Action<OptionBehaviour>((o) => {});
-                    stringOption.TitleText.text = option.name;
-                    stringOption.Value = stringOption.oldValue = option.selection;
-                    stringOption.ValueText.text = option.selections[option.selection].ToString();
-
-                    option.optionBehaviour = stringOption;
-                }
-                option.optionBehaviour.gameObject.SetActive(true);
-            }
-            
-            var commonTasksOption = allOptions.FirstOrDefault(x => x.name == "NumCommonTasks").TryCast<NumberOption>();
-            if(commonTasksOption != null) commonTasksOption.ValidRange = new FloatRange(0f, 4f);
-
-            var shortTasksOption = allOptions.FirstOrDefault(x => x.name == "NumShortTasks").TryCast<NumberOption>();
-            if(shortTasksOption != null) shortTasksOption.ValidRange = new FloatRange(0f, 23f);
-
-            var longTasksOption = allOptions.FirstOrDefault(x => x.name == "NumLongTasks").TryCast<NumberOption>();
-            if(longTasksOption != null) longTasksOption.ValidRange = new FloatRange(0f, 15f);
-            
-            __instance.Children = allOptions.ToArray();
-        }
-    }
-
-    [HarmonyPatch(typeof(StringOption), nameof(StringOption.OnEnable))]
-    public class StringOptionEnablePatch {
-        public static bool Prefix(StringOption __instance) {
-            CustomOption option = CustomOption.options.FirstOrDefault(option => option.optionBehaviour == __instance);
-            if (option == null) return true;
-
-            __instance.OnValueChanged = new Action<OptionBehaviour>((o) => {});
-            __instance.TitleText.text = option.name;
-            __instance.Value = __instance.oldValue = option.selection;
-            __instance.ValueText.text = option.selections[option.selection].ToString();
-            
-            return false;
-        }
-    }
-
-    [HarmonyPatch(typeof(StringOption), nameof(StringOption.Increase))]
-    public class StringOptionIncreasePatch
-    {
-        public static bool Prefix(StringOption __instance)
-        {
-            CustomOption option = CustomOption.options.FirstOrDefault(option => option.optionBehaviour == __instance);
-            if (option == null) return true;
-            option.updateSelection(option.selection + 1);
-            return false;
-        }
-    }
-
-    [HarmonyPatch(typeof(StringOption), nameof(StringOption.Decrease))]
-    public class StringOptionDecreasePatch
-    {
-        public static bool Prefix(StringOption __instance)
-        {
-            CustomOption option = CustomOption.options.FirstOrDefault(option => option.optionBehaviour == __instance);
-            if (option == null) return true;
-            option.updateSelection(option.selection - 1);
-            return false;
-        }
-    }
-
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSyncSettings))]
-    public class RpcSyncSettingsPatch
-    {
-        public static void Postfix()
-        {
-            CustomOption.ShareOptionSelections();
-        }
-    }
-
-
-    [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Update))]
-    class GameOptionsMenuUpdatePatch
-    {
-        private static float timer = 1f;
-        public static void Postfix(GameOptionsMenu __instance) {
-            __instance.GetComponentInParent<Scroller>().YBounds.max = -0.5F + __instance.Children.Length * 0.55F; 
-            timer += Time.deltaTime;
-            if (timer < 0.1f) return;
-            timer = 0f;
-
-            float offset = -7.85f;
-            foreach (CustomOption option in CustomOption.options) {
-                if (option?.optionBehaviour != null && option.optionBehaviour.gameObject != null) {
-                    bool enabled = true;
-                    var parent = option.parent;
-                    while (parent != null && enabled) {
-                        enabled = parent.selection != 0;
-                        parent = parent.parent;
-                    }
-                    option.optionBehaviour.gameObject.SetActive(enabled);
-                    if (enabled) {
-                        offset -= option.isHeader ? 0.75f : 0.5f;
-                        option.optionBehaviour.transform.localPosition = new Vector3(option.optionBehaviour.transform.localPosition.x, offset, option.optionBehaviour.transform.localPosition.z);
-                    }
-                }
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(GameSettingMenu), "OnEnable")]
-    class GameSettingMenuPatch {
-        public static void Prefix(GameSettingMenu __instance) {
-            __instance.HideForOnline = new Transform[]{};
-        }
-
-        public static void Postfix(GameSettingMenu __instance) {
-            var mapNameTransform = __instance.AllItems.FirstOrDefault(x => x.gameObject.activeSelf && x.name.Equals("MapName", StringComparison.OrdinalIgnoreCase));
-            if (mapNameTransform == null) return;
-
-            var options = new Il2CppSystem.Collections.Generic.List<Il2CppSystem.Collections.Generic.KeyValuePair<string, int>>();
-            for (int i = 0; i < GameOptionsData.MapNames.Length; i++) {
-                var kvp = new Il2CppSystem.Collections.Generic.KeyValuePair<string, int>();
-                kvp.key = GameOptionsData.MapNames[i];
-                kvp.value = i;
-                options.Add(kvp);
-            }
-            mapNameTransform.GetComponent<KeyValueOption>().Values = options;
-        }
-    }
-
-    [HarmonyPatch(typeof(Constants), nameof(Constants.ShouldFlipSkeld))]
-    class ConstantsShouldFlipSkeldPatch {
-        public static bool Prefix(ref bool __result) {
-            if (PlayerControl.GameOptions == null) return true;
-            __result = PlayerControl.GameOptions.MapId == 3;
-            return false;
-        }
-    }
-
-    [HarmonyPatch] 
-    class GameOptionsDataPatch
-    {
-        private static IEnumerable<MethodBase> TargetMethods() {
-            return typeof(GameOptionsData).GetMethods().Where(x => x.ReturnType == typeof(string) && x.GetParameters().Length == 1 && x.GetParameters()[0].ParameterType == typeof(int));
-        }
-
-        private static void Postfix(ref string __result)
-        {
-            StringBuilder sb = new StringBuilder(__result);
-            foreach (CustomOption option in CustomOption.options) {
-                if (option.parent == null) {
-                    if (option == CustomOptionHolder.crewmateRolesCountMin) {
-                        var optionName = CustomOptionHolder.cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "Crewmate Roles");
-                        var min = CustomOptionHolder.crewmateRolesCountMin.getSelection();
-                        var max = CustomOptionHolder.crewmateRolesCountMax.getSelection();
-                        if (min > max) min = max;
-                        var optionValue = (min == max) ? $"{max}" : $"{min} - {max}";
-                        sb.AppendLine($"{optionName}: {optionValue}");
-                    } else if (option == CustomOptionHolder.neutralRolesCountMin) {
-                        var optionName = CustomOptionHolder.cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "Neutral Roles");
-                        var min = CustomOptionHolder.neutralRolesCountMin.getSelection();
-                        var max = CustomOptionHolder.neutralRolesCountMax.getSelection();
-                        if (min > max) min = max;
-                        var optionValue = (min == max) ? $"{max}" : $"{min} - {max}";
-                        sb.AppendLine($"{optionName}: {optionValue}");
-                    } else if (option == CustomOptionHolder.impostorRolesCountMin) {
-                        var optionName = CustomOptionHolder.cs(new Color(204f / 255f, 204f / 255f, 0, 1f), "Impostor Roles");
-                        var min = CustomOptionHolder.impostorRolesCountMin.getSelection();
-                        var max = CustomOptionHolder.impostorRolesCountMax.getSelection();
-                        if (min > max) min = max;
-                        var optionValue = (min == max) ? $"{max}" : $"{min} - {max}";
-                        sb.AppendLine($"{optionName}: {optionValue}");
-                    } else if ((option == CustomOptionHolder.crewmateRolesCountMax) || (option == CustomOptionHolder.neutralRolesCountMax) || (option == CustomOptionHolder.impostorRolesCountMax)) {
-                        continue;
-                    } else {
-                        sb.AppendLine($"{option.name}: {option.selections[option.selection].ToString()}");
-                    }
-                    
-                }
-            }
-            CustomOption parent = null;
-            foreach (CustomOption option in CustomOption.options)
-                if (option.parent != null) {
-                    if (option.parent != parent) {
-                        sb.AppendLine();
-                        parent = option.parent;
-                    }
-                    sb.AppendLine($"{option.name}: {option.selections[option.selection].ToString()}");
-                }
-
-            var hudString = sb.ToString();
-
-            int defaultSettingsLines = 20;
-            int roleSettingsLines = defaultSettingsLines + 35;
-            int detailedSettingsP1 = roleSettingsLines + 37;
-            int detailedSettingsP2 = detailedSettingsP1 + 38;
-            int end1 = hudString.TakeWhile(c => (defaultSettingsLines -= (c == '\n' ? 1 : 0)) > 0).Count();
-            int end2 = hudString.TakeWhile(c => (roleSettingsLines -= (c == '\n' ? 1 : 0)) > 0).Count();
-            int end3 = hudString.TakeWhile(c => (detailedSettingsP1 -= (c == '\n' ? 1 : 0)) > 0).Count();
-            int end4 = hudString.TakeWhile(c => (detailedSettingsP2 -= (c == '\n' ? 1 : 0)) > 0).Count();
-            int counter = TheOtherRolesPlugin.optionsPage;
-            if (counter == 0) {
-                hudString = hudString.Substring(0, end1) + "\n";   
-            } else if (counter == 1) {
-                hudString = hudString.Substring(end1 + 1, end2 - end1);
-                // Temporary fix, should add a new CustomOption for spaces
-                int gap = 1;
-                int index = hudString.TakeWhile(c => (gap -= (c == '\n' ? 1 : 0)) > 0).Count();
-                hudString = hudString.Insert(index, "\n");
-                gap = 5;
-                index = hudString.TakeWhile(c => (gap -= (c == '\n' ? 1 : 0)) > 0).Count();
-                hudString = hudString.Insert(index, "\n");
-                gap = 18;
-                index = hudString.TakeWhile(c => (gap -= (c == '\n' ? 1 : 0)) > 0).Count();
-                hudString = hudString.Insert(index + 1, "\n");
-                gap = 22;
-                index = hudString.TakeWhile(c => (gap -= (c == '\n' ? 1 : 0)) > 0).Count();
-                hudString = hudString.Insert(index + 1, "\n");
-            } else if (counter == 2) {
-                hudString = hudString.Substring(end2 + 1, end3 - end2);
-            } else if (counter == 3) {
-                hudString = hudString.Substring(end3 + 1, end4 - end3);
-            } else if (counter == 4) {
-                hudString = hudString.Substring(end4 + 1);
-            }
-
-            hudString += $"\n Press tab for more... ({counter+1}/5)";
-            __result = hudString;
-        }
-    }
-
-    [HarmonyPatch(typeof(KeyboardJoystick), nameof(KeyboardJoystick.Update))]
-    public static class GameOptionsNextPagePatch
-    {
-        public static void Postfix(KeyboardJoystick __instance)
-        {
-            if(Input.GetKeyDown(KeyCode.Tab)) {
-                TheOtherRolesPlugin.optionsPage = (TheOtherRolesPlugin.optionsPage + 1) % 5;
-            }
-        }
-    }
-
-    
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-    public class GameSettingsScalePatch {
-        public static void Prefix(HudManager __instance) {
-            if (__instance.GameSettings != null) __instance.GameSettings.fontSize = 1.2f; 
         }
     }
 }

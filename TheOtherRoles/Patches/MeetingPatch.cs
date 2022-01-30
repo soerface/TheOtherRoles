@@ -95,7 +95,7 @@ namespace TheOtherRoles.Patches {
             public static bool Prefix(MeetingHud __instance, [HarmonyArgument(0)]GameData.PlayerInfo voterPlayer, [HarmonyArgument(1)]int index, [HarmonyArgument(2)]Transform parent) {
                 SpriteRenderer spriteRenderer = UnityEngine.Object.Instantiate<SpriteRenderer>(__instance.PlayerVotePrefab);
                 if (!PlayerControl.GameOptions.AnonymousVotes || (PlayerControl.LocalPlayer.Data.IsDead && MapOptions.ghostsSeeVotes))
-                    PlayerControl.SetPlayerMaterialColors(voterPlayer.ColorId, spriteRenderer);
+                    PlayerControl.SetPlayerMaterialColors(voterPlayer.DefaultOutfit.ColorId, spriteRenderer);
                 else
                     PlayerControl.SetPlayerMaterialColors(Palette.DisabledGrey, spriteRenderer);
                 spriteRenderer.transform.SetParent(parent);
@@ -170,10 +170,15 @@ namespace TheOtherRoles.Patches {
                 Swapper.playerId1 = Byte.MaxValue;
                 Swapper.playerId2 = Byte.MaxValue;
 
-                // Lovers save next to be exiled, because RPC of ending game comes before RPC of exiled
+                // Lovers & Pursuer save next to be exiled, because RPC of ending game comes before RPC of exiled
                 Lovers.notAckedExiledIsLover = false;
-                if (exiled != null)
+                Pursuer.notAckedExiled = false;
+                if (exiled != null) {
                     Lovers.notAckedExiledIsLover = ((Lovers.lover1 != null && Lovers.lover1.PlayerId == exiled.PlayerId) || (Lovers.lover2 != null && Lovers.lover2.PlayerId == exiled.PlayerId));
+                    Pursuer.notAckedExiled = (Pursuer.pursuer != null && Pursuer.pursuer.PlayerId == exiled.PlayerId);
+                }
+                    
+                               
             }
         }
 
@@ -226,8 +231,7 @@ namespace TheOtherRoles.Patches {
             if (guesserUI != null || !(__instance.state == MeetingHud.VoteStates.Voted || __instance.state == MeetingHud.VoteStates.NotVoted)) return;
             __instance.playerStates.ToList().ForEach(x => x.gameObject.SetActive(false));
 
-            Transform container = UnityEngine.Object.Instantiate(__instance.transform.FindChild("Background"), __instance.transform);
-            container.FindChild("BlackBG").gameObject.SetActive(false);
+            Transform container = UnityEngine.Object.Instantiate(__instance.transform.FindChild("PhoneUI"), __instance.transform);
             container.transform.localPosition = new Vector3(0, 0, -5f);
             guesserUI = container.gameObject;
 
@@ -243,7 +247,7 @@ namespace TheOtherRoles.Patches {
             Transform exitButtonMask = UnityEngine.Object.Instantiate(maskTemplate, exitButtonParent);
             exitButton.gameObject.GetComponent<SpriteRenderer>().sprite = smallButtonTemplate.GetComponent<SpriteRenderer>().sprite;
             exitButtonParent.transform.localPosition = new Vector3(2.725f, 2.1f, -5);
-            exitButtonParent.transform.localScale = new Vector3(0.25f, 0.9f, 1);
+            exitButtonParent.transform.localScale = new Vector3(0.217f, 0.9f, 1);
             exitButton.GetComponent<PassiveButton>().OnClick.RemoveAllListeners();
             exitButton.GetComponent<PassiveButton>().OnClick.AddListener((UnityEngine.Events.UnityAction)(() => {
                 __instance.playerStates.ToList().ForEach(x => x.gameObject.SetActive(true));
@@ -254,15 +258,24 @@ namespace TheOtherRoles.Patches {
             Transform selectedButton = null;
 
             foreach (RoleInfo roleInfo in RoleInfo.allRoleInfos) {
-                if (roleInfo.roleId == RoleId.Lover || roleInfo.roleId == RoleId.Guesser || roleInfo == RoleInfo.niceMini) continue; // Not guessable roles
+                RoleId guesserRole = (Guesser.niceGuesser != null && PlayerControl.LocalPlayer.PlayerId == Guesser.niceGuesser.PlayerId) ? RoleId.NiceGuesser :  RoleId.EvilGuesser;
+                if (roleInfo.roleId == RoleId.Lover || roleInfo.roleId == guesserRole || roleInfo == RoleInfo.niceMini || (!Guesser.evilGuesserCanGuessSpy && guesserRole == RoleId.EvilGuesser && roleInfo.roleId == RoleId.Spy)) continue; // Not guessable roles
+                
+                if (Guesser.guesserCantGuessSnitch && Snitch.snitch != null) {
+                    var (playerCompleted, playerTotal) = TasksHandler.taskInfo(Snitch.snitch.Data);
+                    int numberOfLeftTasks = playerTotal - playerCompleted;
+                    if (numberOfLeftTasks <= 0 && roleInfo.roleId == RoleId.Snitch) continue;
+                }
+
                 Transform buttonParent = (new GameObject()).transform;
                 buttonParent.SetParent(container);
                 Transform button = UnityEngine.Object.Instantiate(buttonTemplate, buttonParent);
                 Transform buttonMask = UnityEngine.Object.Instantiate(maskTemplate, buttonParent);
                 TMPro.TextMeshPro label = UnityEngine.Object.Instantiate(textTemplate, button);
+                button.GetComponent<SpriteRenderer>().sprite = DestroyableSingleton<HatManager>.Instance.AllNamePlates[0].Image;
                 buttons.Add(button);
-                int row = i/4, col = i%4;
-                buttonParent.localPosition = new Vector3(-2.725f + 1.83f * col, 1.5f - 0.45f * row, -5);
+                int row = i/5, col = i%5;
+                buttonParent.localPosition = new Vector3(-3.47f + 1.75f * col, 1.5f - 0.45f * row, -5);
                 buttonParent.localScale = new Vector3(0.55f, 0.55f, 1f);
                 label.text = Helpers.cs(roleInfo.color, roleInfo.name);
                 label.alignment = TMPro.TextAlignmentOptions.Center;
@@ -271,27 +284,45 @@ namespace TheOtherRoles.Patches {
                 int copiedIndex = i;
 
                 button.GetComponent<PassiveButton>().OnClick.RemoveAllListeners();
-                button.GetComponent<PassiveButton>().OnClick.AddListener((UnityEngine.Events.UnityAction)(() => {
+                if (!PlayerControl.LocalPlayer.Data.IsDead) button.GetComponent<PassiveButton>().OnClick.AddListener((UnityEngine.Events.UnityAction)(() => {
                     if (selectedButton != button) {
                         selectedButton = button;
                         buttons.ForEach(x => x.GetComponent<SpriteRenderer>().color = x == selectedButton ? Color.red : Color.white);
                     } else {
-                        PlayerControl target = Helpers.playerById((byte)__instance.playerStates[buttonTarget].TargetPlayerId);
-                        if (!(__instance.state == MeetingHud.VoteStates.Voted || __instance.state == MeetingHud.VoteStates.NotVoted) || target == null || Guesser.remainingShots <= 0 ) return;
+                        PlayerControl focusedTarget = Helpers.playerById((byte)__instance.playerStates[buttonTarget].TargetPlayerId);
+                        if (!(__instance.state == MeetingHud.VoteStates.Voted || __instance.state == MeetingHud.VoteStates.NotVoted) || focusedTarget == null || Guesser.remainingShots(PlayerControl.LocalPlayer.PlayerId) <= 0 ) return;
 
-                        var mainRoleInfo = RoleInfo.getRoleInfoForPlayer(target).FirstOrDefault();
+                        if (!Guesser.killsThroughShield && focusedTarget == Medic.shielded) { // Depending on the options, shooting the shielded player will not allow the guess, notifiy everyone about the kill attempt and close the window
+                            __instance.playerStates.ToList().ForEach(x => x.gameObject.SetActive(true)); 
+                            UnityEngine.Object.Destroy(container.gameObject);
+
+                            MessageWriter murderAttemptWriter = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ShieldedMurderAttempt, Hazel.SendOption.Reliable, -1);
+                            AmongUsClient.Instance.FinishRpcImmediately(murderAttemptWriter);
+                            RPCProcedure.shieldedMurderAttempt();
+                            return;
+                        }
+
+                        var mainRoleInfo = RoleInfo.getRoleInfoForPlayer(focusedTarget).FirstOrDefault();
                         if (mainRoleInfo == null) return;
 
-                        target = (mainRoleInfo == roleInfo) ? target : PlayerControl.LocalPlayer;
+                        PlayerControl dyingTarget = (mainRoleInfo == roleInfo) ? focusedTarget : PlayerControl.LocalPlayer;
 
-                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.GuesserShoot, Hazel.SendOption.Reliable, -1);
-                        writer.Write(target.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        RPCProcedure.guesserShoot(target.PlayerId);
-
+                        // Reset the GUI
                         __instance.playerStates.ToList().ForEach(x => x.gameObject.SetActive(true));
                         UnityEngine.Object.Destroy(container.gameObject);
-                        __instance.playerStates.ToList().ForEach(x => { if (x.transform.FindChild("ShootButton") != null) UnityEngine.Object.Destroy(x.transform.FindChild("ShootButton").gameObject); });
+                        if (Guesser.hasMultipleShotsPerMeeting && Guesser.remainingShots(PlayerControl.LocalPlayer.PlayerId) > 1 && dyingTarget != PlayerControl.LocalPlayer)
+                            __instance.playerStates.ToList().ForEach(x => { if (x.TargetPlayerId == dyingTarget.PlayerId && x.transform.FindChild("ShootButton") != null) UnityEngine.Object.Destroy(x.transform.FindChild("ShootButton").gameObject); });
+                        else
+                            __instance.playerStates.ToList().ForEach(x => { if (x.transform.FindChild("ShootButton") != null) UnityEngine.Object.Destroy(x.transform.FindChild("ShootButton").gameObject); });
+
+                        // Shoot player and send chat info if activated
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.GuesserShoot, Hazel.SendOption.Reliable, -1);
+                        writer.Write(PlayerControl.LocalPlayer.PlayerId);
+                        writer.Write(dyingTarget.PlayerId);
+                        writer.Write(focusedTarget.PlayerId);
+                        writer.Write((byte)roleInfo.roleId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPCProcedure.guesserShoot(PlayerControl.LocalPlayer.PlayerId, dyingTarget.PlayerId, focusedTarget.PlayerId, (byte)roleInfo.roleId);
                     }
                 }));
 
@@ -303,7 +334,7 @@ namespace TheOtherRoles.Patches {
         [HarmonyPatch(typeof(PlayerVoteArea), nameof(PlayerVoteArea.Select))]
         class PlayerVoteAreaSelectPatch {
             static bool Prefix(MeetingHud __instance) {
-                return !(PlayerControl.LocalPlayer != null && PlayerControl.LocalPlayer == Guesser.guesser && guesserUI != null);
+                return !(PlayerControl.LocalPlayer != null && Guesser.isGuesser(PlayerControl.LocalPlayer.PlayerId) && guesserUI != null);
             }
         }
 
@@ -322,7 +353,7 @@ namespace TheOtherRoles.Patches {
                     GameObject checkbox = UnityEngine.Object.Instantiate(template);
                     checkbox.transform.SetParent(playerVoteArea.transform);
                     checkbox.transform.position = template.transform.position;
-                    checkbox.transform.localPosition = new Vector3(-0.95f, 0.03f, -1f);
+                    checkbox.transform.localPosition = new Vector3(-0.95f, 0.03f, -1.3f);
                     SpriteRenderer renderer = checkbox.GetComponent<SpriteRenderer>();
                     renderer.sprite = Swapper.getCheckSprite();
                     renderer.color = Color.red;
@@ -337,16 +368,36 @@ namespace TheOtherRoles.Patches {
                 }
             }
 
+            //Fix visor in Meetings 
+            foreach (PlayerVoteArea pva in __instance.playerStates) {
+                if(pva.PlayerIcon != null && pva.PlayerIcon.VisorSlot != null){
+                    pva.PlayerIcon.VisorSlot.transform.position += new Vector3(0, 0, -1f);
+                }
+            }
+
+            // Add overlay for spelled players
+            if (Witch.witch != null && Witch.futureSpelled != null) {
+                foreach (PlayerVoteArea pva in __instance.playerStates) {
+                    if (Witch.futureSpelled.Any(x => x.PlayerId == pva.TargetPlayerId)) {
+                        SpriteRenderer rend = (new GameObject()).AddComponent<SpriteRenderer>();
+                        rend.transform.SetParent(pva.transform);
+                        rend.gameObject.layer = pva.Megaphone.gameObject.layer;
+                        rend.transform.localPosition = new Vector3(-0.5f, -0.03f, -1f);
+                        rend.sprite = Witch.getSpelledOverlaySprite();
+                    }
+                }
+            }
+
             // Add Guesser Buttons
-            if (Guesser.guesser != null && PlayerControl.LocalPlayer == Guesser.guesser && !Guesser.guesser.Data.IsDead && Guesser.remainingShots >= 0) {
+            if (Guesser.isGuesser(PlayerControl.LocalPlayer.PlayerId) && !PlayerControl.LocalPlayer.Data.IsDead && Guesser.remainingShots(PlayerControl.LocalPlayer.PlayerId) > 0) {
                 for (int i = 0; i < __instance.playerStates.Length; i++) {
                     PlayerVoteArea playerVoteArea = __instance.playerStates[i];
-                    if (playerVoteArea.AmDead || playerVoteArea.TargetPlayerId == Guesser.guesser.PlayerId) continue;
+                    if (playerVoteArea.AmDead || playerVoteArea.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId) continue;
 
                     GameObject template = playerVoteArea.Buttons.transform.Find("CancelButton").gameObject;
                     GameObject targetBox = UnityEngine.Object.Instantiate(template, playerVoteArea.transform);
                     targetBox.name = "ShootButton";
-                    targetBox.transform.localPosition = new Vector3(-0.95f, 0.03f, -1f);
+                    targetBox.transform.localPosition = new Vector3(-0.95f, 0.03f, -1.3f);
                     SpriteRenderer renderer = targetBox.GetComponent<SpriteRenderer>();
                     renderer.sprite = Guesser.getTargetSprite();
                     PassiveButton button = targetBox.GetComponent<PassiveButton>();
@@ -379,6 +430,8 @@ namespace TheOtherRoles.Patches {
         [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CoStartMeeting))]
         class StartMeetingPatch {
             public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)]GameData.PlayerInfo meetingTarget) {
+                // Medium meeting start time
+                Medium.meetingStartTime = DateTime.UtcNow;
                 // Reset vampire bitten
                 Vampire.bitten = null;
                 // Count meetings
