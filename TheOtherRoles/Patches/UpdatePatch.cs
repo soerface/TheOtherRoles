@@ -41,8 +41,7 @@ namespace TheOtherRoles.Patches {
             }
             var infos = RoleInfo.getRoleInfoForPlayer(PlayerControl.LocalPlayer);
             var isJester = infos.Any(info => info.roleId == RoleId.Jester);
-            var canSeeImpostors = Jester.jesterCanSeeImpostors.getBool();
-            if (PlayerControl.LocalPlayer.Data.Role.IsImpostor || isJester && canSeeImpostors) {
+            if (PlayerControl.LocalPlayer.Data.Role.IsImpostor || isJester && Jester.canSeeImpostors) {
                 List<PlayerControl> impostors = PlayerControl.AllPlayerControls.ToArray().ToList();
                 impostors.RemoveAll(x => !x.Data.Role.IsImpostor);
                 foreach (PlayerControl player in impostors)

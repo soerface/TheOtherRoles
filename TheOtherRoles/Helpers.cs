@@ -261,6 +261,8 @@ namespace TheOtherRoles {
                 roleCouldUse = true;
             else if (Vulture.canUseVents && Vulture.vulture != null && Vulture.vulture == player)
                 roleCouldUse = true;
+            else if (Jester.canUseVents && Jester.jester != null && Jester.jester == player)
+                roleCouldUse = true;
             else if (player.Data?.Role != null && player.Data.Role.CanVent)  {
                 if (Janitor.janitor != null && Janitor.janitor == PlayerControl.LocalPlayer)
                     roleCouldUse = false;

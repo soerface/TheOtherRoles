@@ -406,12 +406,11 @@ namespace TheOtherRoles.Patches {
         public static void updatePlayerInfo() {
             var infos = RoleInfo.getRoleInfoForPlayer(PlayerControl.LocalPlayer);
             var isJester = infos.Any(info => info.roleId == RoleId.Jester);
-            var canSeeRoles = Jester.jesterCanSeeRoles.getBool() && Jester.jesterCanSeeImpostors.getBool();
             foreach (PlayerControl p in PlayerControl.AllPlayerControls) {         
                 if ((Lawyer.lawyerKnowsRole && PlayerControl.LocalPlayer == Lawyer.lawyer && p == Lawyer.target)
                     || p == PlayerControl.LocalPlayer
                     || PlayerControl.LocalPlayer.Data.IsDead
-                    || (isJester && canSeeRoles)
+                    || (isJester && Jester.canSeeRoles)
                     ) {
                     Transform playerInfoTransform = p.nameText.transform.parent.FindChild("Info");
                     TMPro.TextMeshPro playerInfo = playerInfoTransform != null ? playerInfoTransform.GetComponent<TMPro.TextMeshPro>() : null;
