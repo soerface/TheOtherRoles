@@ -222,9 +222,12 @@ namespace TheOtherRoles.Patches {
             Lighter.lighterTimer -= Time.deltaTime;
             Trickster.lightsOutTimer -= Time.deltaTime;
             Tracker.corpsesTrackingTimer -= Time.deltaTime;
+            EvilShip.killCooldown -= Time.deltaTime;
+            EvilShip.sabotageCooldown -= Time.deltaTime;
             foreach (byte key in Deputy.handcuffedKnows.Keys.ToList())
                 Deputy.handcuffedKnows[key] -= Time.deltaTime;
         }
+        
 
         public static void miniUpdate() {
             if (Mini.mini == null || Camouflager.camouflageTimer > 0f) return;
@@ -244,6 +247,21 @@ namespace TheOtherRoles.Patches {
 
             if (Morphling.morphling != null && Morphling.morphTarget == Mini.mini && Morphling.morphTimer > 0f)
                 Morphling.morphling.nameText.text += suffix;
+        }
+
+        public static void evilShipUpdate()
+        {
+            if (!EvilShip.enabled) return;
+            if (EvilShip.responsiblePlayerId != PlayerControl.LocalPlayer.PlayerId)
+            {
+                PlayerControl responsiblePlayer = Helpers.playerById(EvilShip.responsiblePlayerId);
+                if (responsiblePlayer.Data.Disconnected)
+                    EvilShip.assignNewResponsiblePlayer();
+                return;
+            }
+            if (MeetingHud.Instance || ExileController.Instance) EvilShip.resetCooldown();
+            if (EvilShip.killCooldown <= 0) EvilShip.kill();
+            if (EvilShip.sabotageCooldown <= 0) EvilShip.sabotage();
         }
 
         static void updateImpostorKillButton(HudManager __instance) {
@@ -290,6 +308,8 @@ namespace TheOtherRoles.Patches {
             timerUpdate();
             // Mini
             miniUpdate();
+            // Evil Ship
+            evilShipUpdate();
 
             // Deputy Sabotage, Use and Vent Button Disabling
             updateReportButton(__instance);
