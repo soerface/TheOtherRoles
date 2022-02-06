@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnhollowerBaseLib;
 using UnityEngine;
-using System;
+using Il2CppSystem;
 using static TheOtherRoles.TheOtherRoles;
+using Guid = System.Guid;
+using Object = Il2CppSystem.Object;
 
 namespace TheOtherRoles.Patches {
     [HarmonyPatch(typeof(RoleOptionsData), nameof(RoleOptionsData.GetNumPerGame))]
@@ -14,12 +16,21 @@ namespace TheOtherRoles.Patches {
             if (CustomOptionHolder.activateRoles.getBool()) __result = 0; // Deactivate Vanilla Roles if the mod roles are active
         }
     }
+    //
+    // [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
+    // class GameOptionsDataGetAdjustedNumImpostors{
+    //     public static void Postfix(ref int __result) {
+    //         Debug.Log("GetAdjustedNumImpostors");
+    //         if (EvilShip.enabled) __result = 0;
+    //     }
+    // }
 
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     class RoleManagerSelectRolesPatch {
         private static int crewValues;
         private static int impValues;
         public static void Postfix() {
+            Debug.Log("SelectRoles");
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.ResetVaribles, Hazel.SendOption.Reliable, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             RPCProcedure.resetVariables();
@@ -47,7 +58,7 @@ namespace TheOtherRoles.Patches {
             
             // Special round where we have no impostors
             if (EvilShip.enabled)
-                impostors.ForEach(x => x.Data.IsImpostor = false);
+                impostors.ForEach(x => x.Data.Role.FieldSetter("bool", "IsImposter", new Object()));
             
             impostors.RemoveAll(x => !x.Data.Role.IsImpostor);
 

@@ -319,7 +319,7 @@ namespace TheOtherRoles.Patches {
             }
             else if (AdditionalTempData.winCondition == WinCondition.EvilShipWin)
             {
-                textRenderer.text = "No impostors - the ship killed everyone";
+                textRenderer.text = "The ship killed everyone";
                 textRenderer.color = EvilShip.color;
             }
 

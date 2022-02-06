@@ -1465,13 +1465,26 @@ namespace TheOtherRoles
         public static void kill()
         {
             resetKillCooldown();
-            List<PlayerControl> alivePlayers = PlayerControl.AllPlayerControls.ToArray().ToList().OrderBy(x => Guid.NewGuid()).ToList();
-            alivePlayers.RemoveAll(x => x.Data.IsDead || x.Data.Disconnected);
-            if (Medic.shielded != null)
-                alivePlayers.RemoveAll(x => x.Data.PlayerId == Medic.shielded.PlayerId);
-            var index = TheOtherRoles.rnd.Next(0, alivePlayers.Count);
-            var player = alivePlayers[index];
-            killPlayer(player.PlayerId);
+            List<PlayerControl> imposters = PlayerControl.AllPlayerControls.ToArray().ToList().OrderBy(x => Guid.NewGuid()).ToList();
+            imposters.RemoveAll(x => x.Data.IsDead || !x.Data.Role.IsImpostor || x.Data.Disconnected);
+            if (imposters.Count > 0)
+            {
+                // Dirty hack because I can't get 0 imposters to spawn
+                // Ship always kills imposters first, lol
+                var index = TheOtherRoles.rnd.Next(0, imposters.Count);
+                var player = imposters[index];
+                killPlayer(player.PlayerId);
+            }
+            else
+            {
+                List<PlayerControl> alivePlayers = PlayerControl.AllPlayerControls.ToArray().ToList().OrderBy(x => Guid.NewGuid()).ToList();
+                alivePlayers.RemoveAll(x => x.Data.IsDead || x.Data.Disconnected);
+                if (Medic.shielded != null)
+                    alivePlayers.RemoveAll(x => x.Data.PlayerId == Medic.shielded.PlayerId);
+                var index = TheOtherRoles.rnd.Next(0, alivePlayers.Count);
+                var player = alivePlayers[index];
+                killPlayer(player.PlayerId);
+            }
         }
 
         public static void sabotage()
@@ -1515,7 +1528,7 @@ namespace TheOtherRoles
             writer.Write(playerId);
             writer.Write(playerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
-            RPCProcedure.uncheckedMurderPlayer(playerId, playerId);
+            RPCProcedure.uncheckedMurderPlayer(playerId, playerId, Byte.MaxValue);
         }
 
         public static void broadcastEvilShipData()

@@ -99,6 +99,11 @@ namespace TheOtherRoles {
         public float getFloat() {
             return (float)selections[selection];
         }
+        
+        public int getInt() {
+            return (int)(float)selections[selection];
+        }
+
 
         // Option changes
 
