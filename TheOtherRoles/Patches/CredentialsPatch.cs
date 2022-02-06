@@ -16,7 +16,7 @@ $@"<size=130%><color=#ff351f>TheOtherRoles</color></size> v{TheOtherRolesPlugin.
 Button design by <color=#FCCE03FF>Bavari</color></size>";
 
     public static string mainMenuCredentials = 
-$@"Modded by <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>Thunderstorm584</color>, <color=#FCCE03FF>EndOfFile</color> & <color=#FCCE03FF>Mallöris</color>
+$@"EvilShip 2022-02-06, Modded by <color=#FCCE03FF>Eisbison</color>, <color=#FCCE03FF>Thunderstorm584</color>, <color=#FCCE03FF>EndOfFile</color> & <color=#FCCE03FF>Mallöris</color>
 Design by <color=#FCCE03FF>Bavari</color>";
 
         public static string contributorsCredentials = "<size=60%>GitHub Contributors: Alex2911, amsyarasyiq, gendelo3, MaximeGillot</size>";
